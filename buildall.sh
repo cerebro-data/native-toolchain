@@ -103,7 +103,6 @@ export ZLIB_VERSION=1.2.8
 export OPENSSL_VERSION=1.0.1p
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
-  THRIFT_VERSION=0.9.0-p2 $SOURCE_DIR/source/thrift/build.sh
   THRIFT_VERSION=0.9.0-p4 $SOURCE_DIR/source/thrift/build.sh
 else
   BOOST_VERSION=1.57.0 THRIFT_VERSION=0.9.2-p2 $SOURCE_DIR/source/thrift/build.sh
@@ -123,8 +122,6 @@ GFLAGS_VERSION=2.0 $SOURCE_DIR/source/gflags/build.sh
 # Build gperftools
 ################################################################################
 GPERFTOOLS_VERSION=2.5 $SOURCE_DIR/source/gperftools/build.sh
-GPERFTOOLS_VERSION=2.3 $SOURCE_DIR/source/gperftools/build.sh
-GPERFTOOLS_VERSION=2.0-p1 $SOURCE_DIR/source/gperftools/build.sh
 
 ################################################################################
 # Build glog
@@ -157,7 +154,6 @@ LZ4_VERSION=svn $SOURCE_DIR/source/lz4/build.sh
 ################################################################################
 # Build re2
 ################################################################################
-RE2_VERSION=20130115 $SOURCE_DIR/source/re2/build.sh
 RE2_VERSION=20130115-p1 $SOURCE_DIR/source/re2/build.sh
 
 ################################################################################
@@ -168,7 +164,6 @@ OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
 ################################################################################
 # Build Avro
 ################################################################################
-AVRO_VERSION=1.7.4-p3 $SOURCE_DIR/source/avro/build.sh
 AVRO_VERSION=1.7.4-p4 $SOURCE_DIR/source/avro/build.sh
 
 ################################################################################
