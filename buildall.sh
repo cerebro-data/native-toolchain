@@ -136,7 +136,7 @@ fi
 ################################################################################
 # Build gtest
 ################################################################################
-GTEST_VERSION=1.6.0 $SOURCE_DIR/source/gtest/build.sh
+GTEST_VERSION=1.7.0 $SOURCE_DIR/source/gtest/build.sh
 
 # New versions of are named googletest
 GOOGLETEST_VERSION=20151222 $SOURCE_DIR/source/googletest/build.sh
