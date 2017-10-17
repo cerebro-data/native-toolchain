@@ -1,31 +1,26 @@
-From 4c07ca593cf4b58cf05e50639d96d0eb51f4db6d Mon Sep 17 00:00:00 2001
+From 738ebc141db395e489c47b783e53d3512c971870 Mon Sep 17 00:00:00 2001
 From: Nong Li <nongli@gmail.com>
-Date: Mon, 16 Oct 2017 15:32:30 -0700
-Subject: [PATCH 1/1] Prevent error messages being overwritten
+Date: Tue, 17 Oct 2017 11:52:55 -0700
+Subject: [PATCH 1/1] Prevent error messages being overwritten.
 
 ---
- plugins/plugin_common.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ lib/seterror.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/plugins/plugin_common.h b/plugins/plugin_common.h
-index 0f75897..40780c0 100644
---- a/plugins/plugin_common.h
-+++ b/plugins/plugin_common.h
-@@ -109,9 +109,12 @@ PLUG_API int sasl_canonuser_init(const sasl_utils_t *utils, \
-                                      plug, plugname); \
- }
+diff --git a/lib/seterror.c b/lib/seterror.c
+index 54300f5..726174e 100644
+--- a/lib/seterror.c
++++ b/lib/seterror.c
+@@ -133,6 +133,9 @@ void sasl_seterror(sasl_conn_t *conn,
+       return;
+   } else if(!fmt) return;
 
--/* note: msg cannot include additional variables, so if you want to
-+/* Only set the error message if one is not already set. This prevents overwriting
-+ * plugin-supplied error messages with library error messages.
-+ * note: msg cannot include additional variables, so if you want to
-  * do a printf-format string, then you need to call seterror yourself */
--#define SETERROR( utils, msg ) (utils)->seterror( (utils)->conn, 0, (msg) )
-+#define SETERROR( utils, msg ) \
-+    if (!sasl_errdetail((utils)->conn)) (utils)->seterror( (utils)->conn, 0, (msg) )
-
- #ifndef MEMERROR
- #define MEMERROR( utils ) \
++  // Don't clobber an error if it is already set.
++  if (sasl_errdetail(conn)) return;
++
+ /* we need to use a back end function to get the buffer because the
+    cfm glue can't be rooting around in the internal structs */
+   _sasl_get_errorbuf(conn, &error_buf, &error_buf_len);
 --
 2.11.0 (Apple Git-81)
 
