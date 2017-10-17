@@ -50,6 +50,11 @@ function download_dependency() {
   download_url "${S3_BASE_PREFIX}/${1}/${2}" "${3}/${2}"
 }
 
+function download_cerebro_dependency() {
+  S3_BASE_PREFIX="https://s3-us-west-2.amazonaws.com/cerebrodata-dev/toolchain"
+  download_url "${S3_BASE_PREFIX}/${1}" "${2}/${1}"
+}
+
 # Downloads a URL (first arg) to a given location (second arg). If a file already exists
 # at the location, the download will not be attempted.
 function download_url() {
@@ -258,6 +263,8 @@ function needs_build_package() {
     return 0
   fi
 
+  # Replace potential - with _
+  PACKAGE="${PACKAGE//-/_}"
   ENV_NAME="BUILD_${PACKAGE}"
   ENV_NAME=${!ENV_NAME=0}
 

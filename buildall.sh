@@ -72,7 +72,7 @@ PYTHON_VERSION=2.7.10 LLVM_VERSION=3.8.0 $SOURCE_DIR/source/llvm/build.sh
 # SASL
 ################################################################################
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
-  CYRUS_SASL_VERSION=2.1.23-p1 $SOURCE_DIR/source/cyrus-sasl/build.sh
+  CYRUS_SASL_VERSION=2.1.27-p1 $SOURCE_DIR/source/cyrus-sasl/build.sh
 else
   CYRUS_SASL_VERSION=2.1.26 $SOURCE_DIR/source/cyrus-sasl/build.sh
 fi
