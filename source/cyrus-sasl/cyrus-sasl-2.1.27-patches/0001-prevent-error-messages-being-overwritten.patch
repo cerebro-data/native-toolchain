@@ -1,0 +1,26 @@
+From 738ebc141db395e489c47b783e53d3512c971870 Mon Sep 17 00:00:00 2001
+From: Nong Li <nongli@gmail.com>
+Date: Tue, 17 Oct 2017 11:52:55 -0700
+Subject: [PATCH 1/1] Prevent error messages being overwritten.
+
+---
+ lib/seterror.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/lib/seterror.c b/lib/seterror.c
+index 54300f5..726174e 100644
+--- a/lib/seterror.c
++++ b/lib/seterror.c
+@@ -133,6 +133,9 @@ void sasl_seterror(sasl_conn_t *conn,
+       return;
+   } else if(!fmt) return;
+
++  // Don't clobber an error if it is already set.
++  if (conn->error_code != 0) return;
++
+ /* we need to use a back end function to get the buffer because the
+    cfm glue can't be rooting around in the internal structs */
+   _sasl_get_errorbuf(conn, &error_buf, &error_buf_len);
+--
+2.11.0 (Apple Git-81)
+
