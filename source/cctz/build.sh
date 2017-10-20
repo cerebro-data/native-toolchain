@@ -29,11 +29,7 @@ download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
 
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
-
-  CCTZ_BUILD=$BUILD_DIR/cctz-$CCTZ_VERSION
-  CCTZ_SRC=$THIS_DIR/cctz-$CCTZ_VERSION
-  mkdir -p $CCTZ_BUILD
-  wrap make -C $CCTZ_BUILD  -f $CCTZ_SRC/Makefile SRC=$CCTZ_SRC/
-
+  wrap make
+  PREFIX=$BUILD_DIR/cctz-$CCTZ_VERSION wrap make install
   footer $PACKAGE $PACKAGE_VERSION
 fi
