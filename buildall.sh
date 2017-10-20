@@ -63,10 +63,10 @@ fi
 LLVM_VERSION=3.3-p1 $SOURCE_DIR/source/llvm/build.sh
 LLVM_VERSION=3.3-no-asserts-p1 $SOURCE_DIR/source/llvm/build.sh
 
-# Build LLVM 3.7.0 and 3.8.0 without assertions. For LLVM 3.7+, the default is a
+# Build LLVM 3.7.0 without assertions. For LLVM 3.7+, the default is a
 # release build with no assertions.
 PYTHON_VERSION=2.7.10 LLVM_VERSION=3.7.0 $SOURCE_DIR/source/llvm/build.sh
-PYTHON_VERSION=2.7.10 LLVM_VERSION=3.8.0 $SOURCE_DIR/source/llvm/build.sh
+#PYTHON_VERSION=2.7.10 LLVM_VERSION=3.8.0 $SOURCE_DIR/source/llvm/build.sh
 
 ################################################################################
 # SASL
