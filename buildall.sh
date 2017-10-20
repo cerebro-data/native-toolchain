@@ -138,8 +138,16 @@ fi
 ################################################################################
 GTEST_VERSION=1.7.0 $SOURCE_DIR/source/gtest/build.sh
 
-# New versions of are named googletest
-GOOGLETEST_VERSION=20151222 $SOURCE_DIR/source/googletest/build.sh
+# New versions of gtest are named googletest
+GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
+
+################################################################################
+# Build cctz
+################################################################################
+CCTZ_VERSION=2.1 $SOURCE_DIR/source/cctz/build.sh
+
+# New versions of gtest are named googletest
+GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
 
 ################################################################################
 # Build Snappy

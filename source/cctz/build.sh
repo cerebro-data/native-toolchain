@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# cleans and rebuilds thirdparty/. The Impala build environment must be set up
-# by bin/impala-config.sh before running this script.
-
 # Exit on non-true return value
 set -e
 # Exit on reference to uninitialized variable
@@ -33,12 +30,10 @@ download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
-  pushd ..
-  mkdir -p build-googletest-$GOOGLETEST_VERSION
-  pushd build-googletest-$GOOGLETEST_VERSION
-  wrap cmake -DCMAKE_CXX_FLAGS="${CXXFLAGS}" -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL ../googletest-$GOOGLETEST_VERSION
-  wrap make -j${BUILD_THREADS:-4}
-  wrap make install
+  CCTZ_BUILD=$BUILD_DIR/cctz-$CCTZ_VERSION
+  CCTZ_SRC=$THIS_DIR/cctz-$CCTZ_VERSION
+  mkdir -p $CCTZ_BUILD
+  wrap make -C $CCTZ_BUILD  -f $CCTZ_SRC/Makefile SRC=$CCTZ_SRC/
 
   footer $PACKAGE $PACKAGE_VERSION
 fi
