@@ -28,12 +28,16 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 # Download the dependency from S3
-download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+if [ "${RE2_VERSION}" == "20130115-p1" ]; then
+  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+else
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+fi
 
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
-  # For some reason, re2 doesnt play nice with prefix installations and other
+  # For some reason, re2 doesn't play nice with prefix installations and other
   # typical configuration parameters
   EXTENSION=
   if [[ "$OSTYPE" == "darwin"* ]]; then
