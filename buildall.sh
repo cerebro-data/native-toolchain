@@ -76,6 +76,7 @@ if [[ ! "$OSTYPE" == "darwin"* ]]; then
 else
   CYRUS_SASL_VERSION=2.1.26 $SOURCE_DIR/source/cyrus-sasl/build.sh
 fi
+
 ################################################################################
 # Build libevent
 ################################################################################
@@ -116,7 +117,11 @@ export -n OPENSSL_VERSION
 ################################################################################
 # gflags
 ################################################################################
-GFLAGS_VERSION=2.0 $SOURCE_DIR/source/gflags/build.sh
+
+if (( BUILD_HISTORICAL )); then
+  GFLAGS_VERSION=2.0 $SOURCE_DIR/source/gflags/build.sh
+fi
+GFLAGS_VERSION=2.2.1 $SOURCE_DIR/source/gflags/build.sh
 
 ################################################################################
 # Build gperftools

@@ -28,13 +28,27 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 # Download the dependency from S3
-download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+if [[ "$PACKAGE_VERSION" =~ "2.0" ]]; then
+  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+else
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+fi
 
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
-  wrap ./configure --with-pic --prefix=$LOCAL_INSTALL
-  wrap make -j${BUILD_THREADS:-4} install
+
+  # Recent glog releases (2.2.0+) use CMake rather than autotools. Prefer that if
+  # available.
+  if [ -e CMakeLists.txt ]; then
+    wrap cmake -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=ON \
+        -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL -DCMAKE_BUILD_TYPE=RELEASE
+  else
+    wrap ./configure --with-pic --prefix=$LOCAL_INSTALL
+  fi
+  # Force PIC compilation (will happen automatically with autotools-based build, but not
+  # cmake)
+  CFLAGS="-fPIC -DPIC" wrap make -j${BUILD_THREADS:-4} install
 
   footer $PACKAGE $PACKAGE_VERSION
 fi
