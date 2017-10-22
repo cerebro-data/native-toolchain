@@ -37,7 +37,6 @@ fi
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
-
   # Recent glog releases (2.2.0+) use CMake rather than autotools. Prefer that if
   # available.
   if [ -e CMakeLists.txt ]; then
