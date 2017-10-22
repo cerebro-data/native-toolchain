@@ -151,13 +151,13 @@ GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
 ################################################################################
 CCTZ_VERSION=2.1 $SOURCE_DIR/source/cctz/build.sh
 
-# New versions of gtest are named googletest
-GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
-
 ################################################################################
 # Build Snappy
 ################################################################################
-SNAPPY_VERSION=1.1.3 $SOURCE_DIR/source/snappy/build.sh
+if (( BUILD_HISTORICAL )); then
+  SNAPPY_VERSION=1.1.3 $SOURCE_DIR/source/snappy/build.sh
+fi
+SNAPPY_VERSION=1.1.4 $SOURCE_DIR/source/snappy/build.sh
 
 ################################################################################
 # Build Lz4
