@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# cleans and rebuilds thirdparty/. The Impala build environment must be set up
-# by bin/impala-config.sh before running this script.
-
 # Exit on non-true return value
 set -e
 # Exit on reference to uninitialized variable
@@ -28,7 +25,11 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 # Download the dependency from S3
-download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+if [ "${CYRUS_SASL_VERSION}" == "2.1.23" ]; then
+  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+else
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+fi
 
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
@@ -47,12 +48,22 @@ if needs_build_package ; then
     CONFIGURE_FLAGS+=" --with-bdb-libdir=/usr/lib64/libdb4"
   fi
 
-  # Disable everything except those protocols needed -- currently just Kerberos.
+  # Disable everything except those protocols needed -- currently just Kerberos and
+  # digest md5.
   # Sasl does not have a --with-pic configuration.
-  CFLAGS="$CFLAGS -fPIC -DPIC" CXXFLAGS="$CXXFLAGS -fPIC -DPIC" wrap ./configure \
-    --disable-sql --disable-otp --disable-ldap --with-saslauthd=no \
-    $CONFIGURE_FLAGS \
-    --prefix=$LOCAL_INSTALL --enable-static --enable-staticdlopen $WITH_FRAMEWORKS
+  if [ "${CYRUS_SASL_VERSION}" == "2.1.23" ]; then
+    # In older versions, we don't build digest (and it doesn't build)
+    CFLAGS="$CFLAGS -fPIC -DPIC" CXXFLAGS="$CXXFLAGS -fPIC -DPIC" wrap ./configure \
+      --disable-sql --disable-otp --disable-ldap --disable-digest --with-saslauthd=no \
+      $CONFIGURE_FLAGS \
+      --prefix=$LOCAL_INSTALL --enable-static --enable-staticdlopen $WITH_FRAMEWORKS
+  else
+    CFLAGS="$CFLAGS -fPIC -DPIC" CXXFLAGS="$CXXFLAGS -fPIC -DPIC" wrap ./configure \
+      --disable-sql --disable-otp --disable-ldap --with-saslauthd=no \
+      $CONFIGURE_FLAGS \
+      --prefix=$LOCAL_INSTALL --enable-static --enable-staticdlopen $WITH_FRAMEWORKS
+  fi
+
   # the first time you do a make it fails, build again.
   wrap make || /bin/true
   wrap make -j${BUILD_THREADS:-4}
