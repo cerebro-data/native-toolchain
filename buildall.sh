@@ -120,7 +120,6 @@ export -n OPENSSL_VERSION
 ################################################################################
 # gflags
 ################################################################################
-
 if (( BUILD_HISTORICAL )); then
   GFLAGS_VERSION=2.0 $SOURCE_DIR/source/gflags/build.sh
 fi
@@ -137,12 +136,10 @@ GPERFTOOLS_VERSION=2.6.1 $SOURCE_DIR/source/gperftools/build.sh
 ################################################################################
 # Build glog
 ################################################################################
-GFLAGS_VERSION=2.0 GLOG_VERSION=0.3.2-p1 $SOURCE_DIR/source/glog/build.sh
-
-if [[ ! "$RELEASE_NAME" =~ CentOS.*5\.[[:digit:]] ]]; then
-  # CentOS 5 has issues with the glog patch, probably autotools is too old.
-  GFLAGS_VERSION=2.0 GLOG_VERSION=0.3.3-p1 $SOURCE_DIR/source/glog/build.sh
+if (( BUILD_HISTORICAL )); then
+  GFLAGS_VERSION=2.0 GLOG_VERSION=0.3.2-p1 $SOURCE_DIR/source/glog/build.sh
 fi
+GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.3.3-p1 $SOURCE_DIR/source/glog/build.sh
 
 ################################################################################
 # Build gtest
