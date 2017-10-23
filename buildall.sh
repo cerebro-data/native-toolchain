@@ -129,7 +129,10 @@ GFLAGS_VERSION=2.2.1 $SOURCE_DIR/source/gflags/build.sh
 ################################################################################
 # Build gperftools
 ################################################################################
-GPERFTOOLS_VERSION=2.5 $SOURCE_DIR/source/gperftools/build.sh
+if (( BUILD_HISTORICAL )); then
+  GPERFTOOLS_VERSION=2.5 $SOURCE_DIR/source/gperftools/build.sh
+fi
+GPERFTOOLS_VERSION=2.6.1 $SOURCE_DIR/source/gperftools/build.sh
 
 ################################################################################
 # Build glog
