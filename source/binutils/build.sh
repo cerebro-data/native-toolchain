@@ -19,11 +19,11 @@ source $SOURCE_DIR/functions.sh
 THIS_DIR="$(cd "$(dirname "$0")" && pwd)"
 prepare $THIS_DIR
 
-download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
-
 if needs_build_package ; then
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+
   header $PACKAGE $PACKAGE_VERSION
-  wrap ./configure --enable-gold --prefix=$LOCAL_INSTALL
+  wrap ./configure --enable-gold --enable-plugins --prefix=$LOCAL_INSTALL
   wrap make -j$BUILD_THREADS
   wrap make install
   footer $PACKAGE $PACKAGE_VERSION

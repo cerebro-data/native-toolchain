@@ -22,10 +22,10 @@ set -e
 set -u
 set -o pipefail
 
-# The init.sh script contains all the necessary logic to setup the environment
-# for the build process. This includes setting the right compiler and linker
-# flags.
+# Set up the environment configuration.
 source ./init.sh
+# Configure the compiler/linker flags, bootstrapping tools if necessary.
+source ./init-compiler.sh
 
 ################################################################################
 # How to add new versions to the toolchain:
@@ -41,7 +41,7 @@ source ./init.sh
 ################################################################################
 # Boost
 ################################################################################
-BOOST_VERSION=1.57.0 $SOURCE_DIR/source/boost/build.sh
+BOOST_VERSION=1.57.0-p3 $SOURCE_DIR/source/boost/build.sh
 
 ################################################################################
 # Build Python
@@ -56,40 +56,25 @@ fi
 ################################################################################
 # LLVM
 ################################################################################
-
-# Build LLVM 3.3 with and without asserts.
-# For LLVM 3.3, the default is a release build with assertions. The assertions
-# are disabled by including "no-asserts" in the version string.
-LLVM_VERSION=3.3-p1 $SOURCE_DIR/source/llvm/build.sh
-LLVM_VERSION=3.3-no-asserts-p1 $SOURCE_DIR/source/llvm/build.sh
-
-# Build LLVM 3.7.0 without assertions. For LLVM 3.7+, the default is a
-# release build with no assertions.
-PYTHON_VERSION=2.7.10 LLVM_VERSION=3.7.0 $SOURCE_DIR/source/llvm/build.sh
-#PYTHON_VERSION=2.7.10 LLVM_VERSION=3.8.0 $SOURCE_DIR/source/llvm/build.sh
+(
+  export PYTHON_VERSION=2.7.10
+  LLVM_VERSION=5.0.1 $SOURCE_DIR/source/llvm/build.sh
+)
 
 ################################################################################
 # SASL
 ################################################################################
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
-  if (( BUILD_HISTORICAL )); then
-    CYRUS_SASL_VERSION=2.1.23 $SOURCE_DIR/source/cyrus-sasl/build.sh
-  fi
   CYRUS_SASL_VERSION=2.1.27-p1 $SOURCE_DIR/source/cyrus-sasl/build.sh
 else
   CYRUS_SASL_VERSION=2.1.26 $SOURCE_DIR/source/cyrus-sasl/build.sh
 fi
 
 ################################################################################
-# Build libevent
-################################################################################
-LIBEVENT_VERSION=1.4.15 $SOURCE_DIR/source/libevent/build.sh
-
-################################################################################
 # Build OpenSSL - this is not intended for production use of Impala.
 # Libraries that depend on OpenSSL will only use it if PRODUCTION=1.
 ################################################################################
-OPENSSL_VERSION=1.0.1p $SOURCE_DIR/source/openssl/build.sh
+OPENSSL_VERSION=1.0.2l $SOURCE_DIR/source/openssl/build.sh
 
 ################################################################################
 # Build ZLib
@@ -97,14 +82,18 @@ OPENSSL_VERSION=1.0.1p $SOURCE_DIR/source/openssl/build.sh
 ZLIB_VERSION=1.2.8 $SOURCE_DIR/source/zlib/build.sh
 
 ################################################################################
-# Thrift
-#  * depends on boost
-#  * depends on libevent
+# Build Bison
 ################################################################################
-export LIBEVENT_VERSION=1.4.15
+BISON_VERSION=3.0.4 $SOURCE_DIR/source/bison/build.sh
+
+################################################################################
+# Thrift
+#  * depends on bison, boost, zlib, openssl
+################################################################################
 export BOOST_VERSION=1.57.0
 export ZLIB_VERSION=1.2.8
 export OPENSSL_VERSION=1.0.1p
+export BISON_VERSION=3.0.4
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
   if (( BUILD_HISTORICAL )); then
@@ -115,41 +104,30 @@ else
   BOOST_VERSION=1.57.0 THRIFT_VERSION=0.9.2-p2 $SOURCE_DIR/source/thrift/build.sh
 fi
 
-export -n LIBEVENT_VERSION
 export -n BOOST_VERSION
 export -n ZLIB_VERSION
 export -n OPENSSL_VERSION
+export -n BISON_VERSION
 
 ################################################################################
 # gflags
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  GFLAGS_VERSION=2.0 $SOURCE_DIR/source/gflags/build.sh
-fi
 GFLAGS_VERSION=2.2.1 $SOURCE_DIR/source/gflags/build.sh
 
 ################################################################################
 # Build gperftools
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  GPERFTOOLS_VERSION=2.5 $SOURCE_DIR/source/gperftools/build.sh
-fi
 GPERFTOOLS_VERSION=2.6.1 $SOURCE_DIR/source/gperftools/build.sh
 
 ################################################################################
 # Build glog
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  GFLAGS_VERSION=2.0 GLOG_VERSION=0.3.2-p1 $SOURCE_DIR/source/glog/build.sh
-fi
-GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.3.3-p1 $SOURCE_DIR/source/glog/build.sh
+GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.3.4 $SOURCE_DIR/source/glog/build.sh
 
 ################################################################################
 # Build gtest
 ################################################################################
 GTEST_VERSION=1.7.0 $SOURCE_DIR/source/gtest/build.sh
-
-# New versions of gtest are named googletest
 GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
 
 ################################################################################
@@ -160,25 +138,16 @@ CCTZ_VERSION=2.1 $SOURCE_DIR/source/cctz/build.sh
 ################################################################################
 # Build Snappy
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  SNAPPY_VERSION=1.1.3 $SOURCE_DIR/source/snappy/build.sh
-fi
 SNAPPY_VERSION=1.1.4 $SOURCE_DIR/source/snappy/build.sh
 
 ################################################################################
 # Build Lz4
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  LZ4_VERSION=svn $SOURCE_DIR/source/lz4/build.sh
-fi
 LZ4_VERSION=1.8.0 $SOURCE_DIR/source/lz4/build.sh
 
 ################################################################################
 # Build re2
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  RE2_VERSION=20130115-p1 $SOURCE_DIR/source/re2/build.sh
-fi
 RE2_VERSION=2017-08-01 $SOURCE_DIR/source/re2/build.sh
 
 ################################################################################
@@ -210,11 +179,7 @@ BZIP2_VERSION=1.0.6-p1 $SOURCE_DIR/source/bzip2/build.sh
 ################################################################################
 # Build GDB
 ################################################################################
-if [[ ! "$RELEASE_NAME" =~ CentOS.*5\.[[:digit:]] ]]; then
-  GDB_VERSION=7.9.1 $SOURCE_DIR/source/gdb/build.sh
-else
-  GDB_VERSION=7.9.1 build_fake_package "gdb"
-fi
+GDB_VERSION=7.9.1 $SOURCE_DIR/source/gdb/build.sh
 
 ################################################################################
 # Build Libunwind
@@ -224,4 +189,8 @@ LIBUNWIND_VERSION=1.1 $SOURCE_DIR/source/libunwind/build.sh
 ################################################################################
 # Build Breakpad
 ################################################################################
-BREAKPAD_VERSION=20150612-p1 $SOURCE_DIR/source/breakpad/build.sh
+BREAKPAD_VERSION=97a98836768f8f0154f8f86e5e14c2bb7e74132e $SOURCE_DIR/source/breakpad/build.sh
+
+echo "#######################################################################"
+echo " All Done"
+echo "#######################################################################"

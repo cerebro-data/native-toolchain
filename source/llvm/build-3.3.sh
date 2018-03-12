@@ -44,7 +44,14 @@ function build_llvm_33() {
   cd ../projects
   tar zxf ../../compiler-rt-$SOURCE_VERSION.src.tar.gz
   mv compiler-rt-$SOURCE_VERSION.src compiler-rt
-  cd ../../
+
+  # This needs to be patched after downloading the additional projects
+  cd ../
+  patch=$SOURCE_DIR/source/llvm/llvm-3.3-patches/disable-sanitizer.patch
+  echo "Applying patch $patch"
+  patch -p1 < $patch >> $BUILD_LOG 2>&1
+
+  cd ../
 
   mkdir -p build-$LLVM
   cd build-$LLVM

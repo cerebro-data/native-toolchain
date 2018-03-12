@@ -30,17 +30,13 @@ if [[ "$PACKAGE_VERSION" =~ "3.3" ]]; then
   ARCHIVE_EXT="tar.gz"
 fi
 
-download_dependency $LPACKAGE "cfe-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
-download_dependency $LPACKAGE "clang-tools-extra-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
-download_dependency $LPACKAGE "compiler-rt-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
-download_dependency $LPACKAGE "llvm-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
-
 if needs_build_package ; then
-  if [[ $PACKAGE_VERSION = "trunk" ]]; then
-    . $SOURCE_DIR/source/llvm/build-trunk.sh
-    cd $SOURCE_DIR/source/llvm
-    build_trunk
-  elif [[ "$PACKAGE_VERSION" =~ "3.3" ]]; then
+  download_dependency $LPACKAGE "cfe-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
+  download_dependency $LPACKAGE "clang-tools-extra-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
+  download_dependency $LPACKAGE "compiler-rt-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
+  download_dependency $LPACKAGE "llvm-${SOURCE_VERSION}.src.${ARCHIVE_EXT}" $THIS_DIR
+
+  if [[ "$PACKAGE_VERSION" =~ "3.3" ]]; then
     . $SOURCE_DIR/source/llvm/build-3.3.sh
     cd $SOURCE_DIR/source/llvm
     build_llvm_33

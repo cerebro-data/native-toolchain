@@ -1,5 +1,5 @@
-#!/bin/bash
-# Copyright 2015 Cloudera Inc.
+#!/usr/bin/env bash
+# Copyright 2016 Cloudera Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,27 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -eu
+# Exit on non-true return value
+set -e
+# Exit on reference to uninitialized variable
+set -u
+
+set -o pipefail
 
 source $SOURCE_DIR/functions.sh
 THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
-# Download the dependency from S3
-download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
-
-if [ ! -f $SOURCE_DIR/check/$PACKAGE_STRING ]; then
+if needs_build_package ; then
+  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
   header $PACKAGE $PACKAGE_VERSION
-  ./contrib/download_prerequisites
 
-  cd ..
-  mkdir -p build
-  cd build
+  enable_toolchain_autotools
 
-  wrap ../gcc-$GCC_VERSION/configure --prefix=$LOCAL_INSTALL \
-    --enable-languages=c,c++ --disable-multilib \
-    --with-build-config=bootstrap-debug
-  wrap make -j${BUILD_THREADS:-8}
-  wrap make install
+  wrap ./configure --with-pic --prefix=$LOCAL_INSTALL
+  wrap make -j${BUILD_THREADS:-4} install
+
   footer $PACKAGE $PACKAGE_VERSION
 fi
