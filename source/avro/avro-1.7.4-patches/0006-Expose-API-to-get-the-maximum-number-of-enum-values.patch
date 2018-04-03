@@ -1,0 +1,41 @@
+From 8f7208332b2d1b0aa7af577f71d32e788f3a8064 Mon Sep 17 00:00:00 2001
+From: Nong Li <nongli@gmail.com>
+Date: Tue, 3 Apr 2018 02:21:21 -0700
+Subject: [PATCH] Expose API to get the maximum number of enum values
+
+---
+ lang/c/src/avro/schema.h | 1 +
+ lang/c/src/schema.c      | 5 +++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/lang/c/src/avro/schema.h b/lang/c/src/avro/schema.h
+index 8da618e..94ac8d2 100644
+--- a/lang/c/src/avro/schema.h
++++ b/lang/c/src/avro/schema.h
+@@ -61,6 +61,7 @@ int avro_schema_enum_get_by_name(const avro_schema_t enump,
+ 				 const char *symbol_name);
+ int avro_schema_enum_symbol_append(const avro_schema_t
+ 				   enump, const char *symbol);
++int avro_schema_enum_get_max_symbols(const avro_schema_t enump);
+ 
+ avro_schema_t avro_schema_fixed(const char *name, const int64_t len);
+ int64_t avro_schema_fixed_size(const avro_schema_t fixed);
+diff --git a/lang/c/src/schema.c b/lang/c/src/schema.c
+index 3fea544..81914f0 100644
+--- a/lang/c/src/schema.c
++++ b/lang/c/src/schema.c
+@@ -567,6 +567,11 @@ const char *avro_schema_enum_get(const avro_schema_t enump,
+ 	return val.sym;
+ }
+ 
++int avro_schema_enum_get_max_symbols(const avro_schema_t enump)
++{
++	return avro_schema_to_enum(enump)->symbols->num_entries;
++}
++
+ int avro_schema_enum_get_by_name(const avro_schema_t enump,
+ 				 const char *symbol_name)
+ {
+-- 
+1.9.1
+
