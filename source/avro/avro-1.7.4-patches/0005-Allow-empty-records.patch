@@ -1,0 +1,87 @@
+From cf06065a045786f7fae18bd595e80167a8aa150a Mon Sep 17 00:00:00 2001
+From: Nong Li <nongli@gmail.com>
+Date: Tue, 3 Apr 2018 02:04:55 -0700
+Subject: [PATCH] Allow empty record types
+
+---
+ lang/c/src/schema.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/lang/c/src/schema.c b/lang/c/src/schema.c
+index 917a54a..3fea544 100644
+--- a/lang/c/src/schema.c
++++ b/lang/c/src/schema.c
+@@ -2,17 +2,17 @@
+  * Licensed to the Apache Software Foundation (ASF) under one or more
+  * contributor license agreements.  See the NOTICE file distributed with
+  * this work for additional information regarding copyright ownership.
+- * The ASF licenses this file to you under the Apache License, Version 2.0 
++ * The ASF licenses this file to you under the Apache License, Version 2.0
+  * (the "License"); you may not use this file except in compliance with
+  * the License.  You may obtain a copy of the License at
+- * 
++ *
+  * http://www.apache.org/licenses/LICENSE-2.0
+- * 
++ *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+  * implied.  See the License for the specific language governing
+- * permissions and limitations under the License. 
++ * permissions and limitations under the License.
+  */
+ 
+ #include "avro/allocation.h"
+@@ -115,7 +115,7 @@ static int is_avro_id(const char *name)
+ 			}
+ 		}
+ 		/*
+-		 * starts with [A-Za-z_] subsequent [A-Za-z0-9_] 
++		 * starts with [A-Za-z_] subsequent [A-Za-z0-9_]
+ 		 */
+ 		return 1;
+ 	}
+@@ -831,7 +831,7 @@ avro_type_from_json_t(json_t *json, avro_type_t *type,
+ 		return EINVAL;
+ 	}
+ 	/*
+-	 * TODO: gperf/re2c this 
++	 * TODO: gperf/re2c this
+ 	 */
+ 	if (strcmp(type_str, "string") == 0) {
+ 		*type = AVRO_STRING;
+@@ -950,10 +950,12 @@ avro_schema_from_json_t(json_t *json, avro_schema_t *schema,
+ 				return EINVAL;
+ 			}
+ 			num_fields = json_array_size(json_fields);
++            /*
+ 			if (num_fields == 0) {
+ 				avro_set_error("Record type must have at least one field");
+ 				return EINVAL;
+ 			}
++            */
+ 			record_name = json_string_value(json_name);
+ 			if (!record_name) {
+ 				avro_set_error("Record type must have a \"name\"");
+@@ -1298,7 +1300,7 @@ avro_schema_t avro_schema_copy(avro_schema_t schema)
+ 	case AVRO_BOOLEAN:
+ 	case AVRO_NULL:
+ 		/*
+-		 * No need to copy primitives since they're static 
++		 * No need to copy primitives since they're static
+ 		 */
+ 		new_schema = schema;
+ 		break;
+@@ -1410,7 +1412,7 @@ avro_schema_t avro_schema_copy(avro_schema_t schema)
+ 			    avro_schema_to_link(schema);
+ 			/*
+ 			 * TODO: use an avro_schema_copy of to instead of pointing to
+-			 * the same reference 
++			 * the same reference
+ 			 */
+ 			avro_schema_incref(link_schema->to);
+ 			new_schema = avro_schema_link(link_schema->to);
+-- 
+1.9.1
+
