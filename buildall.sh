@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Copyright 2015 Cloudera Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -155,17 +154,11 @@ OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
 ################################################################################
 # Build Avro
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  AVRO_VERSION=1.7.4-p4 $SOURCE_DIR/source/avro/build.sh
-fi
 AVRO_VERSION=1.7.4-p6 $SOURCE_DIR/source/avro/build.sh
 
 ################################################################################
 # Build Rapidjson
 ################################################################################
-if (( BUILD_HISTORICAL )); then
-  RAPIDJSON_VERSION=0.11 $SOURCE_DIR/source/rapidjson/build.sh
-fi
 RAPIDJSON_VERSION=1.1.0 $SOURCE_DIR/source/rapidjson/build.sh
 
 ################################################################################
