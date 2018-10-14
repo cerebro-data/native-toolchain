@@ -73,12 +73,12 @@ fi
 # Build OpenSSL - this is not intended for production use of Impala.
 # Libraries that depend on OpenSSL will only use it if PRODUCTION=1.
 ################################################################################
-OPENSSL_VERSION=1.0.2l $SOURCE_DIR/source/openssl/build.sh
+OPENSSL_VERSION=1.1.1 $SOURCE_DIR/source/openssl/build.sh
 
 ################################################################################
 # Build ZLib
 ################################################################################
-ZLIB_VERSION=1.2.8 $SOURCE_DIR/source/zlib/build.sh
+ZLIB_VERSION=1.2.11 $SOURCE_DIR/source/zlib/build.sh
 
 ################################################################################
 # Build Bison
@@ -90,8 +90,8 @@ BISON_VERSION=3.0.4 $SOURCE_DIR/source/bison/build.sh
 #  * depends on bison, boost, zlib, openssl
 ################################################################################
 export BOOST_VERSION=1.57.0
-export ZLIB_VERSION=1.2.8
-export OPENSSL_VERSION=1.0.1p
+export ZLIB_VERSION=1.2.11
+export OPENSSL_VERSION=1.1.1
 export BISON_VERSION=3.0.4
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
@@ -113,7 +113,7 @@ GFLAGS_VERSION=2.2.1 $SOURCE_DIR/source/gflags/build.sh
 ################################################################################
 # Build gperftools
 ################################################################################
-GPERFTOOLS_VERSION=2.6.1 $SOURCE_DIR/source/gperftools/build.sh
+GPERFTOOLS_VERSION=2.7 $SOURCE_DIR/source/gperftools/build.sh
 
 ################################################################################
 # Build glog
@@ -123,7 +123,6 @@ GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.3.4 $SOURCE_DIR/source/glog/build.sh
 ################################################################################
 # Build gtest
 ################################################################################
-GTEST_VERSION=1.7.0 $SOURCE_DIR/source/gtest/build.sh
 GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
 
 ################################################################################
@@ -139,7 +138,7 @@ SNAPPY_VERSION=1.1.4 $SOURCE_DIR/source/snappy/build.sh
 ################################################################################
 # Build Lz4
 ################################################################################
-LZ4_VERSION=1.8.0 $SOURCE_DIR/source/lz4/build.sh
+LZ4_VERSION=1.8.3 $SOURCE_DIR/source/lz4/build.sh
 
 ################################################################################
 # Build re2
