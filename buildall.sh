@@ -153,7 +153,10 @@ OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
 ################################################################################
 # Build Avro
 ################################################################################
-AVRO_VERSION=1.7.4-p6 $SOURCE_DIR/source/avro/build.sh
+if (( BUILD_HISTORICAL )); then
+    AVRO_VERSION=1.7.4-p6 $SOURCE_DIR/source/avro/build.sh
+fi
+AVRO_VERSION=1.7.4-p7 $SOURCE_DIR/source/avro/build.sh
 
 ################################################################################
 # Build Rapidjson

@@ -32,7 +32,9 @@ if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
   cd lang/c
-
+  # Workaround for fPIC CXX flag
+  # TODO: Investigate env variables to achieve the same
+  printf "%s\n%s" "set(CMAKE_POSITION_INDEPENDENT_CODE ON)" "$(cat CMakeLists.txt)" > CMakeLists.txt
   mkdir -p build
   cd build
   wrap cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL ..
