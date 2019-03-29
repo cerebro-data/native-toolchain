@@ -432,7 +432,7 @@ function extract_archive() {
       untar_xz "$ARCHIVE"
       ;;
     *.zip)
-      unzip -o "$ARCHIVE"
+      unzip -qo "$ARCHIVE"
       ;;
     *)
       echo "Did not recognise archive extension: $ARCHIVE"
