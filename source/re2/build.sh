@@ -28,7 +28,7 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 # Download the dependency from S3
-if [ "${RE2_VERSION}" == "20130115-p1" ]; then
+if [ "${RE2_VERSION}" == "20190301" ]; then
   download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
 else
   download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR

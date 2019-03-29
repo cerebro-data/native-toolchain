@@ -148,7 +148,10 @@ ZSTD_VERSION=1.3.8 $SOURCE_DIR/source/zstd/build.sh
 ################################################################################
 # Build re2
 ################################################################################
-RE2_VERSION=2017-08-01 $SOURCE_DIR/source/re2/build.sh
+if (( BUILD_HISTORICAL )); then
+  RE2_VERSION=2017-08-01 $SOURCE_DIR/source/re2/build.sh
+fi
+RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
 
 ################################################################################
 # Build Ldap
@@ -159,7 +162,7 @@ OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
 # Build Avro
 ################################################################################
 if (( BUILD_HISTORICAL )); then
-    AVRO_VERSION=1.7.4-p6 $SOURCE_DIR/source/avro/build.sh
+  AVRO_VERSION=1.7.4-p6 $SOURCE_DIR/source/avro/build.sh
 fi
 AVRO_VERSION=1.7.4-p7 $SOURCE_DIR/source/avro/build.sh
 
