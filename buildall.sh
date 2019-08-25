@@ -131,7 +131,10 @@ GOOGLETEST_VERSION=release-1.8.0 $SOURCE_DIR/source/googletest/build.sh
 ################################################################################
 # Build cctz
 ################################################################################
-CCTZ_VERSION=2.1 $SOURCE_DIR/source/cctz/build.sh
+if (( BUILD_HISTORICAL )); then
+  CCTZ_VERSION=2.1 $SOURCE_DIR/source/cctz/build.sh
+fi
+CCTZ_VERSION=2.3 $SOURCE_DIR/source/cctz/build.sh
 
 ################################################################################
 # Build Snappy
@@ -141,12 +144,18 @@ SNAPPY_VERSION=1.1.4 $SOURCE_DIR/source/snappy/build.sh
 ################################################################################
 # Build Lz4
 ################################################################################
-LZ4_VERSION=1.8.3 $SOURCE_DIR/source/lz4/build.sh
+if (( BUILD_HISTORICAL )); then
+  LZ4_VERSION=1.8.3 $SOURCE_DIR/source/lz4/build.sh
+fi
+LZ4_VERSION=1.9.2 $SOURCE_DIR/source/lz4/build.sh
 
 ################################################################################
 # Build ZSTD
 ################################################################################
-ZSTD_VERSION=1.3.8 $SOURCE_DIR/source/zstd/build.sh
+if (( BUILD_HISTORICAL )); then
+  ZSTD_VERSION=1.3.8 $SOURCE_DIR/source/zstd/build.sh
+fi
+ZSTD_VERSION=1.4.3 $SOURCE_DIR/source/zstd/build.sh
 
 ################################################################################
 # Build re2
@@ -159,7 +168,10 @@ RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
 ################################################################################
 # Build Ldap
 ################################################################################
-OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
+if (( BUILD_HISTORICAL )); then
+  OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
+fi
+OPENLDAP_VERSION=2.4.28 $SOURCE_DIR/source/openldap/build.sh
 
 ################################################################################
 # Build Avro

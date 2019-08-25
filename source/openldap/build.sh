@@ -28,7 +28,11 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 # Download the dependency from S3
-download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+if [ "${OPENLDAP_VERSION}" == "2.4.25" ]; then
+  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+else
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+fi
 
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
