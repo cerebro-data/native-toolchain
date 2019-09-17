@@ -1,0 +1,31 @@
++++ a/avro-src-1.7.4-p7/lang/c/src/schema.c	2019-09-17 14:37:05.897803148 -0700
++++ b/avro-src-1.7.4-p7/lang/c/src/schema.c	2019-09-17 14:37:05.897803148 -0700
+@@ -66,11 +66,26 @@
+ 			if (avro_string_set(datum, json_string_value(json))) return EINVAL;
+ 			return 0;
+ 		}
++		case AVRO_ARRAY: {
++			check_param(EINVAL, json_is_array(json), "JSON array");
++			if (json_array_size(json) != 0) {
++				avro_set_error("Only null or empty default array values are supported");
++				return EINVAL;
++			}
++			return 0;
++		}
++		case AVRO_MAP: {
++			// Maps are just arrays of key/values
++			check_param(EINVAL, json_is_array(json), "JSON array");
++			if (json_array_size(json) != 0) {
++				avro_set_error("Only null or empty default map values are supported");
++				return EINVAL;
++			}
++			return 0;
++		}
+ 		case AVRO_BYTES:
+-		case AVRO_ARRAY:
+ 		case AVRO_ENUM:
+ 		case AVRO_FIXED:
+-		case AVRO_MAP:
+ 		case AVRO_RECORD:
+ 		case AVRO_UNION:
+ 		default:
