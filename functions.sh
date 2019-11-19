@@ -84,8 +84,15 @@ function clean_dir() {
 # Checks if the existing build artifacts need to be removed and verifies
 # that all required directories exist.
 function prepare_build_dir() {
-  if [ $CLEAN -eq 1 ]; then
-    clean_dir "$SOURCE_DIR"
+  if [ -z ${CLEAN+x} ]; then
+    echo "\$CLEAN is unset, not cleaning"
+  else
+    if [ "$CLEAN" = "1" ]; then
+      echo "Cleaning $SOURCE_DIR"
+      clean_dir "$SOURCE_DIR"
+    else
+      echo "Clean set but is not 1, not cleaning $SOURCE_DIR"
+    fi
   fi
 
   # Destination directory for build
