@@ -286,6 +286,7 @@ function needs_build_package() {
   : ${BUILD_ALL=1}
 
   if [ ! -f $SOURCE_DIR/check/${PACKAGE_STRING}${PATCH_VERSION} ] && [ $BUILD_ALL -eq 1 ]; then
+    echo "$SOURCE_DIR/check/${PACKAGE_STRING}${PATCH_VERSION} exists, not actually building"
     return 0
   fi
 
@@ -296,6 +297,7 @@ function needs_build_package() {
   if [ $BUILD_ALL -eq 0 ] && [ $ENV_NAME -eq 1 ]; then
     return 0 # Build package
   else
+    echo "Not building $PKG_NAME for reasons"
     return 1 # Dont build this package
   fi
 }

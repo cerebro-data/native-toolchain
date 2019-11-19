@@ -25,6 +25,9 @@ To build a specific package run:
 
 Here, the arguments are package version pairs.
 
+If a build is failing silently, try running in debug mode:
+  DEBUG=1 ./build.sh thrift 0.11.0-p2
+
 # Mac OS X
 
 To build on Mac we cannot use a custom GCC, so we have to use
