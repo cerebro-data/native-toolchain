@@ -1,0 +1,8 @@
++++ openldap-2.4.48/README	2019-11-19 13:10:44.184186337 -0800
+--- openldap-2.4.48/README	2019-11-19 13:10:29.072239435 -0800
+@@ -90,3 +90,5 @@
+ <http://www.OpenLDAP.org/license.html>.
+ 
+ OpenLDAP is a registered trademark of the OpenLDAP Foundation.
++
++empty line
