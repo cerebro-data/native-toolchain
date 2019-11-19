@@ -98,7 +98,7 @@ if [[ ! "$OSTYPE" == "darwin"* ]]; then
   if (( BUILD_HISTORICAL )); then
     THRIFT_VERSION=0.9.3-p4 $SOURCE_DIR/source/thrift/build.sh
   fi
-  THRIFT_VERSION=0.11.0-p2 $SOURCE_DIR/source/thrift/build.sh
+  THRIFT_VERSION=0.11.0-p3 $SOURCE_DIR/source/thrift/build.sh
 else
   BOOST_VERSION=1.57.0 THRIFT_VERSION=0.9.2-p2 $SOURCE_DIR/source/thrift/build.sh
 fi
