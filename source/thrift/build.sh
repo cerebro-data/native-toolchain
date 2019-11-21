@@ -56,6 +56,10 @@ if needs_build_package ; then
     wrap autoconf
   fi
 
+  if [[ ${SYSTEM_AUTOTOOLS} -eq 0 ]]; then
+    PATH=${BUILD_DIR}/automake-${AUTOMAKE_VERSION}/bin/:$PATH
+  fi
+
   PATH="${BISON_ROOT}"/bin:"${PATH}" \
     PY_PREFIX="${LOCAL_INSTALL}"/python \
     wrap ./configure \
