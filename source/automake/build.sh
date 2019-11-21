@@ -25,7 +25,12 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 if needs_build_package ; then
-  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+  if [ "$AUTOMAKE_VERSION" == "1.14.1" ]; then
+    download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+  else
+    download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+  fi
+
   header $PACKAGE $PACKAGE_VERSION
 
   enable_toolchain_autotools
