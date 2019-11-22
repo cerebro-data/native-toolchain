@@ -28,6 +28,15 @@ source ./init.sh
 function build() {
   echo "Requesting build of $1 $2"
   PACKAGE=`echo "$1" | awk '{print toupper($0)}'`
+  if [ "$PACKAGE" == "THRIFT" ]; then
+    echo "Building thrift"
+    export BOOST_VERSION=1.57.0
+    export ZLIB_VERSION=1.2.11
+    export OPENSSL_VERSION=1.1.1
+    export BISON_VERSION=3.0.4
+  else
+    echo "Building not thrift"
+  fi
   # Replace potential - with _
   PACKAGE="${PACKAGE//-/_}"
   VAR_NAME="${PACKAGE}_VERSION"
@@ -36,6 +45,14 @@ function build() {
   export BUILD_ALL=0
   export $VAR_PACKAGE=1
   $SOURCE_DIR/source/$1/build.sh
+
+  if [ "$PACKAGE" == "THRIFT" ]; then
+    echo "Building thrift"
+    export BOOST_VERSION=1.57.0
+    export ZLIB_VERSION=1.2.11
+    export OPENSSL_VERSION=1.1.1
+    export BISON_VERSION=3.0.4
+  fi
 }
 
 # Check that command line arguments were passed correctly.
