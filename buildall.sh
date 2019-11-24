@@ -95,9 +95,12 @@ export OPENSSL_VERSION=1.1.1
 export BISON_VERSION=3.0.4
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
-  if (( BUILD_HISTORICAL )); then
-    THRIFT_VERSION=0.9.3-p4 $SOURCE_DIR/source/thrift/build.sh
-  fi
+  #0.9.3 does not build on 18.04 and we're standardizing on that as our build OS.
+  # Therefore, we're commenting this out but leaving it in as a reference in case
+  # we need to build it for older releases.
+  #if (( BUILD_HISTORICAL )); then
+  #  THRIFT_VERSION=0.9.3-p4 $SOURCE_DIR/source/thrift/build.sh
+  #fi
   THRIFT_VERSION=0.11.0-p3 $SOURCE_DIR/source/thrift/build.sh
 else
   BOOST_VERSION=1.57.0 THRIFT_VERSION=0.9.2-p2 $SOURCE_DIR/source/thrift/build.sh
