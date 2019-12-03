@@ -171,11 +171,10 @@ RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
 ################################################################################
 # Build Ldap
 ################################################################################
-# This does not build on Ubuntu 18.04. Commenting it out but leaving it in-place
-# to support easily building this on older OSes for older releases.
-#if (( BUILD_HISTORICAL )); then
-#  OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
-#fi
+# Build the older version *ONLY* on older OSes (e.g. Ubuntu 16.04)
+if (( BUILD_HISTORICAL )); then
+  OPENLDAP_VERSION=2.4.48 $SOURCE_DIR/source/openldap/build.sh
+fi
 OPENLDAP_VERSION=2.4.48-p1 $SOURCE_DIR/source/openldap/build.sh
 
 ################################################################################
