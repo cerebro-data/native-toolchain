@@ -1,0 +1,25 @@
+--- thrift-0.11.0/lib/cpp/test/Makefile.in	2017-12-02 11:11:36.000000000 -0800
++++ thrift-0.11.0/lib/cpp/test/Makefile.in	2017-12-02 14:11:36.000000000 -0800
+@@ -743,7 +743,10 @@
+ Benchmark_SOURCES = \
+ 	Benchmark.cpp
+ 
+-Benchmark_LDADD = libtestgencpp.la
++Benchmark_LDADD = libtestgencpp.la \
++	$(OPENSSL_LDFLAGS) \
++	$(OPENSSL_LIBS)
++
+ TESTS_ENVIRONMENT = \
+ 	BOOST_TEST_LOG_SINK=tests.xml \
+ 	BOOST_TEST_LOG_LEVEL=test_suite \
+@@ -960,7 +963,9 @@
+ 	concurrency/TimerManagerTests.h
+ 
+ concurrency_test_LDADD = \
+-  $(top_builddir)/lib/cpp/libthrift.la
++  $(top_builddir)/lib/cpp/libthrift.la \
++	$(OPENSSL_LDFLAGS) \
++	$(OPENSSL_LIBS)
+ 
+ link_test_SOURCES = \
+   link/LinkTest.cpp \
