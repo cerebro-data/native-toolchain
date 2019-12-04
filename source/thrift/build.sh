@@ -58,6 +58,7 @@ if needs_build_package ; then
 
   if [[ ${SYSTEM_AUTOTOOLS} -eq 0 ]]; then
     PATH=${BUILD_DIR}/automake-${AUTOMAKE_VERSION}/bin/:$PATH
+    PATH=${BUILD_DIR}/autoconf-${AUTOMAKE_VERSION}/bin/:$PATH
   fi
 
   PATH="${BISON_ROOT}"/bin:"${PATH}" \
