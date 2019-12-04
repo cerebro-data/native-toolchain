@@ -304,7 +304,7 @@ function needs_build_package() {
   if [ $BUILD_ALL -eq 0 ] && [ $ENV_NAME -eq 1 ]; then
     return 0 # Build package
   else
-    echo "Not building $PKG_NAME for reasons"
+    echo "Not building $PACKAGE for reasons"
     return 1 # Dont build this package
   fi
 }
