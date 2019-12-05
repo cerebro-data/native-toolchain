@@ -48,7 +48,7 @@ function download_dependency() {
 }
 
 function download_cerebro_dependency() {
-  S3_BASE_PREFIX="https://s3-us-west-2.amazonaws.com/cerebrodata-dev/toolchain"
+  S3_BASE_PREFIX="https://cerebrodata-dev.s3-us-west-2.amazonaws.com/toolchain"
   download_url "${S3_BASE_PREFIX}/${1}" "${2}/${1}"
 }
 
@@ -66,6 +66,7 @@ function download_url() {
       ARGS+=(-O "$OUTPUT_PATH")
     fi
     ARGS+=("$URL")
+    echo "wget \"${ARGS[@]}\""
     wget "${ARGS[@]}"
   fi
 }
