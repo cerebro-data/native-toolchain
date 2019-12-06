@@ -209,7 +209,7 @@ LIBUNWIND_VERSION=1.1 $SOURCE_DIR/source/libunwind/build.sh
 ################################################################################
 # Build Breakpad
 ################################################################################
-BREAKPAD_VERSION=97a98836768f8f0154f8f86e5e14c2bb7e74132e-p2 $SOURCE_DIR/source/breakpad/build.sh
+BREAKPAD_VERSION=97a98836768f8f0154f8f86e5e14c2bb7e74132e $SOURCE_DIR/source/breakpad/build.sh
 
 echo "#######################################################################"
 echo " All Done"
