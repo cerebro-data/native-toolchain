@@ -1,0 +1,29 @@
+--- breakpad-97a98836768f8f0154f8f86e5e14c2bb7e74132e/src/config.h.in  2018-01-09 16:22:07.000000000 +0000
++++ breakpad-97a98836768f8f0154f8f86e5e14c2bb7e74132e/src/config.h.in  2019-12-06 05:51:27.187285213 +0000
+@@ -1,7 +1,7 @@
+ /* src/config.h.in.  Generated from configure.ac by autoheader.  */
+
+ /* Define to 1 if you have the `arc4random' function. */
+-#undef HAVE_ARC4RANDOM
++/* #undef HAVE_ARC4RANDOM
+
+ /* Define to 1 if you have the <a.out.h> header file. */
+ #undef HAVE_A_OUT_H
+@@ -10,7 +10,7 @@
+ #undef HAVE_CXX11
+
+ /* Define to 1 if you have the `getrandom' function. */
+-#undef HAVE_GETRANDOM
++/* #undef HAVE_GETRANDOM */
+
+ /* Define to 1 if you have the <inttypes.h> header file. */
+ #undef HAVE_INTTYPES_H
+@@ -34,7 +34,7 @@
+ #undef HAVE_STRING_H
+
+ /* Define to 1 if you have the <sys/random.h> header file. */
+-#undef HAVE_SYS_RANDOM_H
++/* #undef HAVE_SYS_RANDOM_H */
+
+ /* Define to 1 if you have the <sys/stat.h> header file. */
+ #undef HAVE_SYS_STAT_H

@@ -1,0 +1,12 @@
+--- breakpad-97a98836768f8f0154f8f86e5e14c2bb7e74132e/configure.ac  2018-01-09 16:22:07.000000000 +0000
++++ breakpad-97a98836768f8f0154f8f86e5e14c2bb7e74132e/configure.ac  2019-12-06 05:30:36.205831649 +0000
+@@ -72,8 +72,7 @@
+ AC_HEADER_STDC
+ AC_SYS_LARGEFILE
+ AX_PTHREAD
+-AC_CHECK_HEADERS([a.out.h sys/random.h])
+-AC_CHECK_FUNCS([arc4random getrandom])
++AC_CHECK_HEADERS([a.out.h])
+
+ AX_CXX_COMPILE_STDCXX(11, noext, mandatory)
+
