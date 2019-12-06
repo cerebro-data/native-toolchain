@@ -325,6 +325,10 @@ function apply_patches() {
       echo "Applying patch ${PATCH_NUM}...${p}"
       set +e
       # Check if patch can be applied at -p2 first, then p1
+      if [[ $DEBUG -ne 0 ]]; then
+        echo "current dir `pwd`"
+        echo "patch --verbose -p2 < $p >> $BUILD_LOG 2>&1"
+      fi
       patch --verbose -p2 < $p >> $BUILD_LOG 2>&1
       RET_VAL=$?
       set -e
