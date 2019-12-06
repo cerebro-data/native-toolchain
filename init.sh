@@ -105,6 +105,9 @@ export AUTOMAKE_VERSION
 : ${LIBTOOL_VERSION=2.4.2}
 export LIBTOOL_VERSION
 
+: ${OPENSSL_VERSION=1.1.1}
+export OPENSSL_VERSION
+
 set -x
 # Set the build target platform from the Jenkins environment if it was not
 # already set, or fall back to 'generic'.

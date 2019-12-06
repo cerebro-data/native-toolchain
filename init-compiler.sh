@@ -53,22 +53,22 @@ if [[ $SYSTEM_GCC -eq 0 ]]; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
     FULL_RPATH="-Wl,-rpath,$BUILD_DIR/gcc-$GCC_VERSION/lib,-rpath,'\$ORIGIN/../lib'"
   else
-    FULL_RPATH="-Wl,-rpath,$BUILD_DIR/gcc-$GCC_VERSION/lib64,-rpath,'\$ORIGIN/../lib64'"
+    FULL_RPATH="-Wl,-rpath,$BUILD_DIR/gcc-$GCC_VERSION/lib64,-rpath,$BUILD_DIR/openssl-$OPENSSL_VERSION/lib,-rpath,'\$ORIGIN/../lib64'"
   fi
   FULL_RPATH="${FULL_RPATH},-rpath,'\$ORIGIN/../lib'"
 
-  FULL_LPATH="-L$BUILD_DIR/gcc-$GCC_VERSION/lib64"
+  FULL_LPATH="-L$BUILD_DIR/gcc-$GCC_VERSION/lib64 -L$BUILD_DIR/openssl-$OPENSSL_VERSION/lib"
   LDFLAGS="$ARCH_FLAGS $FULL_RPATH $FULL_LPATH"
-  CXXFLAGS="$ARCH_FLAGS -static-libstdc++ -fPIC -O3 -m64"
+  CXXFLAGS="$ARCH_FLAGS -static-libstdc++ -fPIC -O3 -m64 -I$BUILD_DIR/openssl-$OPENSSL_VERSION/include"
+  CFLAGS="-fPIC -O3 -m64 -I$BUILD_DIR/openssl-$OPENSSL_VERSION/include"
 else
   if [[ "$OSTYPE" == "darwin"* ]]; then
     CXX="g++ -stdlib=libstdc++"
   fi
   LDFLAGS=""
   CXXFLAGS="-fPIC -O3 -m64"
+  CFLAGS="-fPIC -O3 -m64"
 fi
-
-CFLAGS="-fPIC -O3 -m64"
 
 # List of export variables after configuring gcc
 export ARCH_FLAGS
