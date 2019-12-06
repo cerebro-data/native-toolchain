@@ -73,7 +73,7 @@ fi
 # Build OpenSSL - this is not intended for production use of Impala.
 # Libraries that depend on OpenSSL will only use it if PRODUCTION=1.
 ################################################################################
-OPENSSL_VERSION=1.1.1 $SOURCE_DIR/source/openssl/build.sh
+$SOURCE_DIR/source/openssl/build.sh
 
 ################################################################################
 # Build ZLib
@@ -91,7 +91,6 @@ BISON_VERSION=3.0.4 $SOURCE_DIR/source/bison/build.sh
 ################################################################################
 export BOOST_VERSION=1.57.0
 export ZLIB_VERSION=1.2.11
-export OPENSSL_VERSION=1.1.1
 export BISON_VERSION=3.0.4
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
@@ -105,7 +104,6 @@ fi
 
 export -n BOOST_VERSION
 export -n ZLIB_VERSION
-export -n OPENSSL_VERSION
 export -n BISON_VERSION
 
 ################################################################################
