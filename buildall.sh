@@ -94,13 +94,11 @@ export ZLIB_VERSION=1.2.11
 export BISON_VERSION=3.0.4
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
-  #0.9.3 does not build on 18.04 and we're standardizing on that as our build OS.
-  # Therefore, we're commenting this out but leaving it in as a reference in case
-  # we need to build it for older releases.
-  #if (( BUILD_HISTORICAL )); then
-  #  THRIFT_VERSION=0.9.3-p4 $SOURCE_DIR/source/thrift/build.sh
-  #fi
-  THRIFT_VERSION=0.11.0-p4 $SOURCE_DIR/source/thrift/build.sh
+  if (( BUILD_HISTORICAL )); then
+    echo "Building thrift 0.9.3"
+    THRIFT_VERSION=0.9.3-p4 $SOURCE_DIR/source/thrift/build.sh
+  fi
+  THRIFT_VERSION=0.11.0-p3 $SOURCE_DIR/source/thrift/build.sh
 else
   BOOST_VERSION=1.57.0 THRIFT_VERSION=0.9.2-p2 $SOURCE_DIR/source/thrift/build.sh
 fi
@@ -171,9 +169,9 @@ RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
 ################################################################################
 # Build the older version *ONLY* on older OSes (e.g. Ubuntu 16.04)
 if (( BUILD_HISTORICAL )); then
-  OPENLDAP_VERSION=2.4.48 $SOURCE_DIR/source/openldap/build.sh
+  OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
 fi
-OPENLDAP_VERSION=2.4.48-p1 $SOURCE_DIR/source/openldap/build.sh
+OPENLDAP_VERSION=2.4.48 $SOURCE_DIR/source/openldap/build.sh
 
 ################################################################################
 # Build Avro
@@ -197,6 +195,9 @@ BZIP2_VERSION=1.0.6-p1 $SOURCE_DIR/source/bzip2/build.sh
 ################################################################################
 # Build GDB
 ################################################################################
+if (( BUILD_HISTORICAL )); then
+  GDB_VERSION=7.9.1 $SOURCE_DIR/source/gdb/build.sh
+fi
 GDB_VERSION=8.3.1 $SOURCE_DIR/source/gdb/build.sh
 
 ################################################################################
