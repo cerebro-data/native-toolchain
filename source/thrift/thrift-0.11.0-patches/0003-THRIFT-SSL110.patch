@@ -1,9 +1,0 @@
---- thrift-0.11.0/README.md	2017-12-03 11:11:35.000000000 -0800
-+++ thrift-0.11.0/README.md	2019-11-19 13:25:37.492921326 -0800
-@@ -176,3 +176,6 @@
-
- To build the same way Travis CI builds the project you should use docker.
- We have [comprehensive building instructions for docker](build/docker/README.md).
-+
-+
-+empty line
