@@ -172,8 +172,14 @@ RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
 # Build the older version *ONLY* on older OSes (e.g. Ubuntu 16.04)
 if (( BUILD_HISTORICAL )); then
   OPENLDAP_VERSION=2.4.25 $SOURCE_DIR/source/openldap/build.sh
+  OPENLDAP_VERSION=2.4.48 $SOURCE_DIR/source/openldap/build.sh
+  # We need to wipe out the soure directory so that configuration is run again.
+  # this is only needed because we're building 2.4.48 twice
+  echo "ls: `ls $SOURCE_DIR/source/openldap`"
+  echo "running rm -rf $SOURCE_DIR/source/openldap/openldap-2.4.48"
+  rm -rf $SOURCE_DIR/source/openldap/openldap-2.4.48
 fi
-OPENLDAP_VERSION=2.4.48 $SOURCE_DIR/source/openldap/build.sh
+OPENLDAP_VERSION=2.4.48-p1 $SOURCE_DIR/source/openldap/build.sh
 
 ################################################################################
 # Build Avro
