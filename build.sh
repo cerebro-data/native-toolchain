@@ -25,6 +25,8 @@ export SOURCE_DIR="$( cd "$( dirname "$0" )" && pwd )"
 # flags.
 source ./init.sh
 
+source ./init-compiler.sh
+
 function build() {
   echo "Requesting build of $1 $2"
   PACKAGE=`echo "$1" | awk '{print toupper($0)}'`
