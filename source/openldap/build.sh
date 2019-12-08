@@ -33,7 +33,9 @@ prepare $THIS_DIR
 # Download the dependency from S3
 if [ "${OPENLDAP_VERSION}" == "2.4.25" ]; then
   download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
-else # 2.4.48 or greater
+elif [ "${OPENLDAP_VERSION}" == "2.4.48" ]; then
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+else  # 2.4.48-p1 or greater
   download_cerebro_dependency "${LPACKAGE_VERSION}.tgz" $THIS_DIR
 
   OPENSSL_ROOT="${BUILD_DIR}"/openssl-"${OPENSSL_VERSION}"
