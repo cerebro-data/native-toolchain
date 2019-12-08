@@ -27,11 +27,22 @@ source $SOURCE_DIR/functions.sh
 THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
+# OpenSSL 1.1.1 support was added in OpenLDAP 2.4.45
+# so we have to use the OS version to get 1.0.2 if we're building
+# older releases.
 # Download the dependency from S3
 if [ "${OPENLDAP_VERSION}" == "2.4.25" ]; then
   download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tgz" $THIS_DIR
-else
+else # 2.4.48 or greater
   download_cerebro_dependency "${LPACKAGE_VERSION}.tgz" $THIS_DIR
+
+  OPENSSL_ROOT="${BUILD_DIR}"/openssl-"${OPENSSL_VERSION}"
+
+  # Set these to ensure that we pick up the OpenSSL built by the toolchain
+  LD_LIBRARY_PATH=$OPENSSL_ROOT/lib:$LD_LIBRARY_PATH
+  CXXFLAGS="$CXXFLAGS -I$BUILD_DIR/openssl-$OPENSSL_VERSION/include"
+  CFLAGS="$CFLAGS -I$BUILD_DIR/openssl-$OPENSSL_VERSION/include"
+  LDFLAGS="$LDFLAGS -L$BUILD_DIR/openssl-$OPENSSL_VERSION/lib"
 fi
 
 if needs_build_package ; then

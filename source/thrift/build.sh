@@ -38,10 +38,25 @@ if needs_build_package ; then
   OPENSSL_ROOT="${BUILD_DIR}"/openssl-"${OPENSSL_VERSION}"
   ZLIB_ROOT="${BUILD_DIR}"/zlib-"${ZLIB_VERSION}"
 
-  # If we build in local dev mode, use the bundled OpenSSL
+  # We generally want to use the OpenSSL that we build in the native toolchain,
+  # but for thrift 0.9.3, we cannot do this as it does NOT support openssl 1.1.1.
+  # So, for thrift 0.9.3, we use the OS's version of openssl which *should* be
+  # 1.0.2 something as we should only be building this on Ubuntu 16.04
   if [[ "$PRODUCTION" -eq "0" || "$OSTYPE" == "darwin"* ]]; then
-    OPENSSL_ROOT=$BUILD_DIR/openssl-$OPENSSL_VERSION
-    OPENSSL_ARGS=--with-openssl=$OPENSSL_ROOT
+    if [[ "$PACKAGE_VERSION" == "0.9.3" ]]; then
+      LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH
+      CXXFLAGS="$CXXFLAGS -I/usr/include/x86_64-linux-gnu/"
+      CFLAGS="$CFLAGS -I/usr/include/x86_64-linux-gnu/"
+      LDFLAGS="$LDFLAGS -L/usr/lib/x86_64-linux-gnu/"
+      OPENSSL_ARGS=
+    else
+      LD_LIBRARY_PATH=$OPENSSL_ROOT/lib:$LD_LIBRARY_PATH
+      CXXFLAGS="$CXXFLAGS -I$BUILD_DIR/openssl-$OPENSSL_VERSION/include"
+      CFLAGS="$CFLAGS -I$BUILD_DIR/openssl-$OPENSSL_VERSION/include"
+      LDFLAGS="$LDFLAGS -L$BUILD_DIR/openssl-$OPENSSL_VERSION/lib"
+      OPENSSL_ROOT=$BUILD_DIR/openssl-$OPENSSL_VERSION
+      OPENSSL_ARGS=--with-openssl=$OPENSSL_ROOT
+    fi
   else
     OPENSSL_ARGS=
   fi
@@ -97,6 +112,7 @@ if needs_build_package ; then
     echo "Thrift python lib configuration failed."
     exit 1
   fi
+
   wrap make install # Thrift 0.9.0 doesn't build with -j${BUILD_THREADS}
   cd contrib/fb303
   rm -f config.cache
