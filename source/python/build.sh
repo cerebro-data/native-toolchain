@@ -33,7 +33,7 @@ download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
-  LDFLAGS= wrap ./configure --prefix=$LOCAL_INSTALL
+  LDFLAGS= wrap ./configure --prefix=$LOCAL_INSTALL --enable-shared
   wrap make -j${BUILD_THREADS:-4}
   wrap make install
   footer $PACKAGE $PACKAGE_VERSION
