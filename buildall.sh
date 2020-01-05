@@ -30,7 +30,7 @@ source ./init-compiler.sh
 # How to add new versions to the toolchain:
 #
 #   * Make sure the build script is ready to build the new version.
-#   * Find the libary in the list below and create new line that follows the
+#   * Find the library in the list below and create new line that follows the
 #     pattern: LIBRARYNAME_VERSION=Version $SOURCE_DIR/source/LIBRARYNAME/build.sh
 #
 #  WARNING: Once a library has been rolled out to production, it cannot be
