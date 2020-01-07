@@ -95,8 +95,8 @@ export BISON_VERSION=3.0.4
 
 if [[ ! "$OSTYPE" == "darwin"* ]]; then
   if (( BUILD_HISTORICAL )); then
-    echo "Building thrift 0.9.3"
-    THRIFT_VERSION=0.9.3-p4 $SOURCE_DIR/source/thrift/build.sh
+    echo "Building thrift 0.9.0"
+    THRIFT_VERSION=0.9.0-p4 $SOURCE_DIR/source/thrift/build.sh
     echo "Building thrift 0.11.0-p2"
     THRIFT_VERSION=0.11.0-p2 $SOURCE_DIR/source/thrift/build.sh
   fi
