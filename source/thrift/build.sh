@@ -43,7 +43,7 @@ if needs_build_package ; then
   # So, for thrift 0.9.3, we use the OS's version of openssl which *should* be
   # 1.0.2 something as we should only be building this on Ubuntu 16.04
   if [[ "$PRODUCTION" -eq "0" || "$OSTYPE" == "darwin"* ]]; then
-    if [[ "$PACKAGE_VERSION" == "0.9.3" || "$THRIFT_VERSION" == "0.11.0-p2" ]]; then
+    if [[ "$PACKAGE_VERSION" == "0.9.0" || "$PACKAGE_VERSION" == "0.9.3" || "$THRIFT_VERSION" == "0.11.0-p2" ]]; then
       echo "Using the OS openssl"
       LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH
       CXXFLAGS="$CXXFLAGS -I/usr/include/x86_64-linux-gnu/"
