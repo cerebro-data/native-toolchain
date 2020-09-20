@@ -118,12 +118,18 @@ GFLAGS_VERSION=2.2.1 $SOURCE_DIR/source/gflags/build.sh
 ################################################################################
 # Build gperftools
 ################################################################################
-GPERFTOOLS_VERSION=2.7 $SOURCE_DIR/source/gperftools/build.sh
+if (( BUILD_HISTORICAL )); then
+  GPERFTOOLS_VERSION=2.7 $SOURCE_DIR/source/gperftools/build.sh
+fi
+GPERFTOOLS_VERSION=2.8 $SOURCE_DIR/source/gperftools/build.sh
 
 ################################################################################
 # Build glog
 ################################################################################
-GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.3.4 $SOURCE_DIR/source/glog/build.sh
+if (( BUILD_HISTORICAL )); then
+  GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.3.4 $SOURCE_DIR/source/glog/build.sh
+fi
+GFLAGS_VERSION=2.2.1 GLOG_VERSION=0.4.0 $SOURCE_DIR/source/glog/build.sh
 
 ################################################################################
 # Build gtest
@@ -141,7 +147,10 @@ CCTZ_VERSION=2.3 $SOURCE_DIR/source/cctz/build.sh
 ################################################################################
 # Build Snappy
 ################################################################################
-SNAPPY_VERSION=1.1.4 $SOURCE_DIR/source/snappy/build.sh
+if (( BUILD_HISTORICAL )); then
+  SNAPPY_VERSION=1.1.4 $SOURCE_DIR/source/snappy/build.sh
+fi
+SNAPPY_VERSION=1.1.8 $SOURCE_DIR/source/snappy/build.sh
 
 ################################################################################
 # Build Lz4
@@ -156,16 +165,18 @@ LZ4_VERSION=1.9.2 $SOURCE_DIR/source/lz4/build.sh
 ################################################################################
 if (( BUILD_HISTORICAL )); then
   ZSTD_VERSION=1.3.8 $SOURCE_DIR/source/zstd/build.sh
+  ZSTD_VERSION=1.4.3 $SOURCE_DIR/source/zstd/build.sh
 fi
-ZSTD_VERSION=1.4.3 $SOURCE_DIR/source/zstd/build.sh
+ZSTD_VERSION=1.4.5 $SOURCE_DIR/source/zstd/build.sh
 
 ################################################################################
 # Build re2
 ################################################################################
 if (( BUILD_HISTORICAL )); then
   RE2_VERSION=2017-08-01 $SOURCE_DIR/source/re2/build.sh
+  RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
 fi
-RE2_VERSION=20190301 $SOURCE_DIR/source/re2/build.sh
+RE2_VERSION=2020-08-01 $SOURCE_DIR/source/re2/build.sh
 
 ################################################################################
 # Build Ldap

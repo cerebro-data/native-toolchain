@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Copyright 2015 Cloudera Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,13 +27,18 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 prepare $THIS_DIR
 
 # Download the dependency from S3
-download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+if [[ "$PACKAGE_VERSION" =~ "0.3" ]]; then
+  download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+else
+  download_cerebro_dependency "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
+fi
 
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
   GFLAGS_BUILD=$BUILD_DIR/gflags-$GFLAGS_VERSION
 
+  wrap ./autogen.sh || true
   wrap ./configure --with-gflags=$GFLAGS_BUILD --with-pic --prefix=$LOCAL_INSTALL
   wrap make -j${BUILD_THREADS:-4} install
 

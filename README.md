@@ -34,3 +34,9 @@ To build on Mac we cannot use a custom GCC, so we have to use
 the system compiler:
 
     SYSTEM_GCC=1 DEBUG=1 ./buildall.sh
+
+# Updating
+
+Source tarballs should be put here:
+
+    s3://cerebrodata-dev/toolchain/

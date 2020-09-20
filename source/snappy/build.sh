@@ -33,8 +33,11 @@ download_dependency $LPACKAGE "${LPACKAGE_VERSION}.tar.gz" $THIS_DIR
 if needs_build_package ; then
   header $PACKAGE $PACKAGE_VERSION
 
-  #./autogen.sh
-  wrap ./configure --with-pic --prefix=$LOCAL_INSTALL
+  if [[ "$PACKAGE_VERSION" =~ "1.1.8" ]]; then
+    CFLAGS="$CFLAGS -fPIC -DPIC" CXXFLAGS="$CXXFLAGS -fPIC -DPIC" wrap cmake -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL
+  else
+    wrap ./configure --with-pic --prefix=$LOCAL_INSTALL
+  fi
   wrap make -j${BUILD_THREADS:-4} install
 
   footer $PACKAGE $PACKAGE_VERSION
