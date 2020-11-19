@@ -70,6 +70,11 @@ else
 fi
 
 ################################################################################
+# Build protobuf
+################################################################################
+PROTOBUF_VERSION=3.5.1 $SOURCE_DIR/source/protobuf/build.sh
+
+################################################################################
 # Build OpenSSL - this is not intended for production use of Impala.
 # Libraries that depend on OpenSSL will only use it if PRODUCTION=1.
 ################################################################################
@@ -229,6 +234,18 @@ LIBUNWIND_VERSION=1.1 $SOURCE_DIR/source/libunwind/build.sh
 # Build Breakpad
 ################################################################################
 BREAKPAD_VERSION=97a98836768f8f0154f8f86e5e14c2bb7e74132e $SOURCE_DIR/source/breakpad/build.sh
+
+################################################################################
+# Build ORC
+################################################################################
+(
+  export LZ4_VERSION=1.9.2
+  export PROTOBUF_VERSION=3.5.1
+  export SNAPPY_VERSION=1.1.8
+  export ZLIB_VERSION=1.2.11
+  export GOOGLETEST_VERSION=release-1.8.0
+  ORC_VERSION=1.6.2-p7 $SOURCE_DIR/source/orc/build.sh
+)
 
 echo "#######################################################################"
 echo " All Done"
